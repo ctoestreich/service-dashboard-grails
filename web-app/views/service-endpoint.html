@@ -1,0 +1,44 @@
+<div class="widget alert fade in {{ class }}" ng-mouseenter="showMenu=true" ng-mouseleave="showMenu=false"><a title=""
+                                                                                                              ng-click="clearTimer()"
+                                                                                                              data-dismiss="alert"
+                                                                                                              class="close"
+                                                                                                              href="#"
+                                                                                                              data-original-title="Hide widget">x</a>
+
+    <p>
+        <strong class="{{ class }}"><i class="{{ icon }} icon-large" style="margin-right: 5px;"></i><a
+                data-toggle="modal" href="#viewModal"
+                ng-click="viewEndpoint(endpoint)">{{endpoint.endpointName}}</a></strong>
+        {{endpoint.environmentType.name}} - {{endpoint.serviceType.name}}
+        <BR><a href="#" class="" data-toggle="tooltip" title="{{endpoint.requestUrl}}">{{endpoint.requestUrl|shorten:26}}&nbsp;<i
+            class="icon-question-sign"></i></a><br>
+        <span ng-show="reachable">
+            {{reachable}}
+        </span>
+        <span ng-show="error">
+            &nbsp;<a href="#errorModal" data-toggle="modal" ng-click="viewError(error)">Show Error</a>
+        </span>
+
+    <div class="btn-group btn-group-sm" ng-show="showMenu" style="position:absolute; right: 5px; bottom: 5px;">
+        <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown">
+            Action <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" style="text-align: left;">
+            <li><a href="#" ng-click="refresh()"><i class="icon-refresh"></i>&nbsp;Refresh</a></li>
+            <li><a data-toggle="modal" href="#viewModal" ng-click="viewEndpoint(endpoint)"><i
+                    class="icon-glass"></i>&nbsp;View</a></li>
+            <li class="divider"></li>
+            <li><a data-toggle="modal" href="#statusModal" ng-click="viewEndpointResponse(endpoint)"><i
+                    class="icon-glass"></i>&nbsp;Last Response</a></li>
+            <li class="divider"></li>
+            <li><a data-toggle="modal" href="#editModal" ng-click="editEndpoint(endpoint)"><i
+                    class="icon-picture"></i>&nbsp;Edit</a></li>
+            <li class="divider"></li>
+            <li><a href="#" ng-click="copyEndpoint(endpoint)"><i class="icon-copy"></i>&nbsp;Copy</a></li>
+            <li class="divider"></li>
+            <li><a data-toggle="modal" href="#deleteModal" ng-click="deleteEndpoint(endpoint)"><i
+                    class="icon-remove-circle"></i>&nbsp;Delete</a></li>
+        </ul>
+    </div>
+    </p>
+</div>

@@ -1,0 +1,27 @@
+/*
+*= require bootstrap.min
+*= require font-awesome.min
+*= require jgrowl
+*= require plugins/jquery.jgrowl
+*= require plugins/jquery.visualize
+*= require site
+This is the light theme change to star equal and remove from dark theme
+//require site.light
+
+This is the dark theme
+*= require site.dark
+
+*= require_self
+*/
+
+.wide .modal-dialog{
+    width: 80%;
+}
+
+.wide .modal-body {
+    font-size: .9em;
+}
+
+.tooltip {
+    z-index: 100000;
+}
