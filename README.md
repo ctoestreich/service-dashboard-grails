@@ -33,7 +33,6 @@ foo {
 
 SUCCESS VALUE
 -------
-
 The Success value can be either a value literal like "FOO" or can be a regex like `/FOO/`
 
 
