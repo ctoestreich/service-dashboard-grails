@@ -50,12 +50,12 @@ class PollingService {
 
             Pattern pattern = Pattern.compile(serviceEndpoint.successValue)
 
-            def success = (node?.toString()?.contains(serviceEndpoint.successValue) || pattern.matcher(node?.toString()).matches())
+            def success = (node?.toString()?.contains(serviceEndpoint.successValue) || pattern.matcher(node?.toString() ?: "").matches())
             result.up = response.statusCode == 200
             result.down = response.statusCode != 200
             result.success = success
             if (!success) {
-                result.exception = "Using Node: ${serviceEndpoint.successNode} and found: ${node}<br/>Looking for value: ${serviceEndpoint.successValue}<BR>Was: ${success}"
+                result.exception = "Using Node: ${serviceEndpoint.successNode} and found: ${node?.toString()}<br/>Looking for value: ${serviceEndpoint.successValue}"
             }
             result.lastResponse = response?.json?.toString() ?: ""
 
@@ -83,13 +83,15 @@ class PollingService {
                     requestXML)
 
             def node
+            def value = []
 
             def success = response.body.depthFirst().findAll {
                 Pattern pattern = Pattern.compile(serviceEndpoint.successValue)
                 def matches = false
                 if(it.name() == serviceEndpoint.successNode){
                     node = it.name()
-                    matches = (it.text().equalsIgnoreCase(serviceEndpoint.successValue) || pattern?.matcher(it.text())?.matches())
+                    value << it.text()
+                    matches = (it?.text().equalsIgnoreCase(serviceEndpoint.successValue) || pattern?.matcher(it?.text())?.matches())
                 }
                 matches
             }
@@ -99,7 +101,7 @@ class PollingService {
             result.down = response.httpResponse.statusCode != 200
             result.success = success.size() > 0
             if (!success) {
-                result.exception = "Using Node: ${serviceEndpoint.successNode} and found: ${node*.toString()}<br/>Looking for value: ${serviceEndpoint.successValue}"
+                result.exception = "Using Node: ${serviceEndpoint.successNode} and found: ${value.join(', ')}<br/>Looking for value: ${serviceEndpoint.successValue}"
             }
         } catch (Exception e) {
             result.up = false
