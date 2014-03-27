@@ -170,7 +170,7 @@
                         <div class="col-sm-9">{{endpointToView.requestUrl}}</div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" ng-show="endpointToView.serviceType.name == 'SOAP'">
                         <label for="soapAction" class="col-sm-3 control-label">Soap Action</label>
 
                         <div class="col-sm-9">{{endpointToView.soapAction}}</div>
@@ -183,13 +183,20 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="successNode" class="col-sm-3 control-label">Success Node (xml)</label>
+                        <label for="successNode"
+                               data-toggle="tooltip"
+                               title="XML child node (bar) or JSON path (foo.bar)"
+                               class="col-sm-3 control-label">Success Node&nbsp;<i class="icon-question-sign"></i>
+                        </label>
 
                         <div class="col-sm-9">{{endpointToView.successNode}}</div>
                     </div>
 
                     <div class="form-group">
-                        <label for="successValue" class="col-sm-3 control-label">Success Value</label>
+                        <label data-toggle="tooltip"
+                               title="String or regex (with NO wrapping slashes) value to compare against xml or json node"
+                               for="successValue" class="col-sm-3 control-label">Success Value&nbsp;<i
+                                class="icon-question-sign"></i></label>
 
                         <div class="col-sm-9">{{endpointToView.successValue}}</div>
                     </div>

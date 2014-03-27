@@ -25,3 +25,7 @@ This is the dark theme
 .tooltip {
     z-index: 100000;
 }
+
+#viewServiceEndpointForm .col-sm-9 {
+    padding-top: 7px;
+}
