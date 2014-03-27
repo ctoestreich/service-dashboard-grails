@@ -80,7 +80,8 @@
                       view="viewEndpoint"
                       status="viewEndpointResponse"
                       copy="copyEndpoint"
-                      error="viewError"/>
+                      error="viewError"
+    />
 </span>
 
 
@@ -319,7 +320,7 @@
 
                     <div class="form-group">
                         <label data-toggle="tooltip"
-                               title="String or regex value to compare against xml or json node"
+                               title="String or regex (with NO wrapping slashes) value to compare against xml or json node"
                                for="successValue" class="col-sm-3 control-label">Success Value&nbsp;<i
                                 class="icon-question-sign"></i></label>
 

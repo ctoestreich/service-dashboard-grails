@@ -5,6 +5,8 @@ import wslite.rest.RESTClientException
 import wslite.soap.SOAPClient
 import wslite.soap.SOAPVersion
 
+import java.util.regex.Pattern
+
 class PollingService {
 
     static transactional = false
@@ -46,14 +48,16 @@ class PollingService {
                 node = node."${it}"
             }
 
-            def success = (node?.toString()?.contains(serviceEndpoint.successValue) || node?.toString() ==~ serviceEndpoint.successValue)
+            Pattern pattern = Pattern.compile(serviceEndpoint.successValue)
+
+            def success = (node?.toString()?.contains(serviceEndpoint.successValue) || pattern.matcher(node?.toString()).matches())
             result.up = response.statusCode == 200
             result.down = response.statusCode != 200
             result.success = success
             if (!success) {
                 result.exception = "Using Node: ${serviceEndpoint.successNode} and found: ${node}<br/>Looking for value: ${serviceEndpoint.successValue}<BR>Was: ${success}"
             }
-            result.lastResponse = response?.json ?: (response ?: "") as Serializable
+            result.lastResponse = response?.json?.toString() ?: ""
 
         } catch (RESTClientException e) {
             result.up = false
@@ -77,11 +81,17 @@ class PollingService {
                     connectTimeout: Settings.getGlobalConnectionTimeout(),
                     readTimeout: Settings.getGlobalReadTimeout(),
                     requestXML)
+
+            def node
+
             def success = response.body.depthFirst().findAll {
-                it.name() == serviceEndpoint.successNode && (it.text().equalsIgnoreCase(serviceEndpoint.successValue) || it.text() ==~ serviceEndpoint.successValue)
-            }
-            def node = response.body.depthFirst().findAll {
-                it.name() == serviceEndpoint.successNode
+                Pattern pattern = Pattern.compile(serviceEndpoint.successValue)
+                def matches = false
+                if(it.name() == serviceEndpoint.successNode){
+                    node = it.name()
+                    matches = (it.text().equalsIgnoreCase(serviceEndpoint.successValue) || pattern?.matcher(it.text())?.matches())
+                }
+                matches
             }
 
             result.lastResponse = (response?.text ?: '')

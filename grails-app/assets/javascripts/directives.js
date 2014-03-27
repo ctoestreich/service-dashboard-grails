@@ -19,15 +19,24 @@ serviceDashboard.directive('serviceEndpoint', ['$http', function ($http) {
                 scope.clearTimer();
             });
 
+            scope.$watch('endpoint.shouldRefresh', function () {
+                if (scope.endpoint && scope.endpoint.shouldRefresh) {
+                    scope.endpoint.shouldRefresh = false;
+                    scope.refresh();
+                }
+            });
+
             scope.refresh = function () {
+                scope.class = "service-fetching";
                 scope.icon = "icon-spinner icon-spin";
                 scope.error = "";
-                $http.get("/service-dashboard/polling/refresh/" + scope.endpoint.id)
+                $http({url: "/service-dashboard/polling/refresh/" + scope.endpoint.id, async : true, method: 'GET', cache: false})
                     .success(statusSuccess)
                     .error(statusError);
             };
 
             scope.fetch = function () {
+                scope.class = "service-fetching";
                 scope.icon = "icon-spinner icon-spin";
                 scope.error = "";
                 $http.get("/service-dashboard/polling/status/" + scope.endpoint.id)
@@ -44,6 +53,7 @@ serviceDashboard.directive('serviceEndpoint', ['$http', function ($http) {
             scope.interval = setInterval(scope.fetch, scope.endpoint.pollIntervalMilliSeconds);
 
             function statusSuccess(data) {
+                scope.shouldRefresh = false;
                 scope.class = data.success ? "service-success" : "service-failure";
                 scope.icon = data.success ? "icon-arrow-up" : "icon-ban-circle";
                 scope.reachable = data.up ? 'reachable' : 'unreachable';
@@ -57,7 +67,8 @@ serviceDashboard.directive('serviceEndpoint', ['$http', function ($http) {
             }
 
             function statusError(error) {
-                console.log(error);
+                console.log('error', error);
+                scope.shouldRefresh = false;
                 scope.reachable = 'unreachable';
                 scope.class = "service-failure";
                 scope.icon = "icon-ban-circle";

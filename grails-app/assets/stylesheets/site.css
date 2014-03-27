@@ -62,7 +62,7 @@ img {
     max-width: 100%;
     /* Part 1: Set a maxium relative to the parent */
 
-    width: auto\9;
+    width: auto;
     /* IE7-8 need help adjusting responsive images */
 
     height: auto;
@@ -220,6 +220,16 @@ a:focus {
     color: #47660b;
     text-decoration: underline;
 }
+
+ .service-fetching a {
+      color: #428bca;
+ }
+
+.service-fetching a:hover,
+.service-fetching a:focus {
+    color: #2a6496;
+}
+
 .img-rounded {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;

@@ -12,14 +12,17 @@ class Settings {
     long refreshTimer = DEFAULT_REFRESH_TIMER_INTERVAL
 
     static long getGlobalConnectionTimeout() {
-        findAll()?.get(0)?.connectionTimeout ?: DEFAULT_CONNECTION_TIMEOUT
+        def settings = findAll()
+        settings.size() > 0 ? settings.get(0)?.connectionTimeout : DEFAULT_CONNECTION_TIMEOUT
     }
 
     static long getGlobalReadTimeout() {
-        findAll()?.get(0)?.readTimeout ?: DEFAULT_READ_TIMEOUT
+        def settings = findAll()
+        settings.size() > 0 ? settings.get(0)?.readTimeout : DEFAULT_READ_TIMEOUT
     }
 
     static long getGlobalRefreshTimer() {
-        findAll()?.get(0)?.refreshTimer ?: DEFAULT_REFRESH_TIMER_INTERVAL
+        def settings = findAll()
+        settings.size() > 0 ? settings.get(0)?.refreshTimer : DEFAULT_REFRESH_TIMER_INTERVAL
     }
 }

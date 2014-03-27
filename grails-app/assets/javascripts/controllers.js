@@ -97,23 +97,23 @@ serviceDashboard.controller('ServiceEndpointCtrl',
             };
 
             $scope.createEndpoint = function () {
-                return new EndpointService({endpointName: '',
+                $scope.endpointToEdit = new EndpointService({endpointName: '',
                     requestUrl: '',
                     soapAction: '',
                     requestBody: '',
-                    successNode: 'ErrorMessage',
-                    successValue: 'SUCCESS',
+                    successNode: '',
+                    successValue: '',
+                    shouldRefresh: false,
                     pollIntervalMilliSeconds: 30000
                 });
             };
 
             $scope.saveExistingEndpoint = function () {
-                EndpointService.save($scope.endpointToEdit, function (data) {
-                    console.log(data);
+                var endpoint = _.find($scope.endpoints, function(item){ return item.id == $scope.endpointToEdit.id });
+                endpoint.$save(function (data) {
                     $scope.showSuccessMessage(data, 'endpoint', data.endpointName, data.id);
-                    //todo: figure out the two way binding
-                    $scope.endpoints = _.reject($scope.endpoints, { 'id': $scope.endpointToEdit.id });
-                    $scope.endpoints.push(data);
+                    endpoint.shouldRefresh = true;
+                    $scope.endpointToEdit = {};
                 }, function (data) {
                     $scope.showErrorMessage(data, 'endpoint');
                 });
