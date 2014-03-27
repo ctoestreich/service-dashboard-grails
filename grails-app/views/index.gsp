@@ -101,7 +101,7 @@
 
                         <div class="col-sm-8">
                             <input name="connectionTimeout" ng-model="settings.connectionTimeout"
-                                   class="form-control" id="connectionTimeout" placeholder="10000">
+                                   class="form-control" id="connectionTimeout" placeholder="30000">
                         </div>
                     </div>
 
@@ -110,7 +110,7 @@
 
                         <div class="col-sm-8">
                             <input name="readTimeout" ng-model="settings.readTimeout"
-                                   class="form-control" id="readTimeout" placeholder="10000">
+                                   class="form-control" id="readTimeout" placeholder="30000">
                         </div>
                     </div>
 
@@ -120,6 +120,7 @@
                         <div class="col-sm-8">
                             <input name="refreshTimer" ng-model="settings.refreshTimer"
                                    class="form-control" id="refreshTimer" placeholder="120000">
+                            <p>This is the interval that the server actually polls all services via quartz.  Changing this will cancel and reschedule the quartz job with the new interval.</p>
                         </div>
                     </div>
                 </form>
