@@ -1,6 +1,6 @@
 package com.bsb
 
-enum EnvironmentType {
+enum EnvironmentType implements Serializable {
     DEV,
     TEST,
     STAGE,

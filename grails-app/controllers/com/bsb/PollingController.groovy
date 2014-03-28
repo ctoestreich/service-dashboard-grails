@@ -13,7 +13,7 @@ class PollingController {
             result = serviceEndpointStatusService.status(ServiceEndpoint.get(id))
         }
 
-        render result as JSON
+        render (result ?: {}) as JSON
     }
 
     def refresh() {

@@ -14,20 +14,20 @@ class ServiceEndpointController extends RestfulController {
         super(ServiceEndpoint)
     }
 
-    def index(){
-        respond ServiceEndpoint.list(), model:[serviceEndpointCount: ServiceEndpoint.count()]
+    def index() {
+        respond ServiceEndpoint.list(), model: [serviceEndpointCount: ServiceEndpoint.count()]
     }
 
     def save(ServiceEndpoint serviceEndpoint) {
         if (serviceEndpoint.validate()) {
             serviceEndpoint.save(flush: true)
-            serviceEndpointStatusService.refresh(serviceEndpoint)
+        	serviceEndpointStatusService.refresh(serviceEndpoint)
         }
 
         respond serviceEndpoint, model: [serviceEndpoint: serviceEndpoint]
     }
 
-    def status(ServiceEndpoint serviceEndpoint){
+    def status(ServiceEndpoint serviceEndpoint) {
         respond serviceEndpoint.serviceEndpointStatus, model: [serviceEndpointStatus: serviceEndpoint.serviceEndpointStatus]
     }
 

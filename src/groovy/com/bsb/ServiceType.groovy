@@ -1,6 +1,6 @@
 package com.bsb
 
-enum ServiceType {
+enum ServiceType implements Serializable  {
     SOAP,
     REST
 }

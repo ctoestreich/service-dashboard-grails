@@ -43,9 +43,9 @@ class PollingService {
                     sslTrustAllCerts: true,
                     connectTimeout: Settings.getGlobalConnectionTimeout(),
                     readTimeout: Settings.getGlobalReadTimeout())
-            def node = response.json
-            serviceEndpoint.successNode.split(/\./).each {
-                node = node."${it}"
+            def node = response?.json
+            serviceEndpoint?.successNode?.split(/\./)?.each {
+                node = node?."${it}"
             }
 
             Pattern pattern = Pattern.compile(serviceEndpoint.successValue)
@@ -91,7 +91,7 @@ class PollingService {
                 if(it.name() == serviceEndpoint.successNode){
                     node = it.name()
                     value << it.text()
-                    matches = (it?.text().equalsIgnoreCase(serviceEndpoint.successValue) || pattern?.matcher(it?.text())?.matches())
+                    matches = (it?.text()?.equalsIgnoreCase(serviceEndpoint.successValue) || pattern?.matcher(it?.text())?.matches())
                 }
                 matches
             }

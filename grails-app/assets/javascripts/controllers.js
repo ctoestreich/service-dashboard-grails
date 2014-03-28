@@ -110,6 +110,8 @@ serviceDashboard.controller('ServiceEndpointCtrl',
 
             $scope.saveExistingEndpoint = function () {
                 var endpoint = _.find($scope.endpoints, function(item){ return item.id == $scope.endpointToEdit.id });
+                endpoint.serviceType = endpoint.serviceType.name;
+                endpoint.environmentType = endpoint.environmentType.name;
                 endpoint.$save(function (data) {
                     $scope.showSuccessMessage(data, 'endpoint', data.endpointName, data.id);
                     endpoint.shouldRefresh = true;
@@ -120,6 +122,8 @@ serviceDashboard.controller('ServiceEndpointCtrl',
             };
 
             $scope.saveNewEndpoint = function () {
+                $scope.endpointToEdit.serviceType = $scope.endpointToEdit.serviceType.name;
+                $scope.endpointToEdit.environmentType = $scope.endpointToEdit.environmentType.name;
                 EndpointService.save($scope.endpointToEdit, function (data) {
                     $scope.showSuccessMessage(data, 'endpoint', data.endpointName, data.id);
                     $scope.endpoints.push(data);
