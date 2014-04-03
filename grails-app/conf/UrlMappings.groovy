@@ -15,6 +15,8 @@ class UrlMappings {
 
         "/api/settings/$id?"(resources: 'settings')
 
+        "/tests"(view:"/tests")
+
         "/"(view:"/index")
         "500"(view:'/error')
 	}
