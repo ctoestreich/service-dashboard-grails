@@ -2,8 +2,10 @@ package com.bsb
 
 import grails.rest.RestfulController
 import grails.transaction.Transactional
+import groovy.util.logging.Commons
 
 @Transactional(readOnly = true)
+@Commons
 class ServiceEndpointController extends RestfulController {
 
     static responseFormats = ['json', 'xml']
@@ -19,10 +21,15 @@ class ServiceEndpointController extends RestfulController {
     }
 
     def save(ServiceEndpoint serviceEndpoint) {
-        if (serviceEndpoint.validate()) {
-            serviceEndpoint.save(flush: true)
-        	serviceEndpointStatusService.refresh(serviceEndpoint)
+        serviceEndpoint.validate()
+        if (serviceEndpoint.hasErrors()) {
+            response.status = 500
+            render serviceEndpoint.errors
+            return
         }
+
+        serviceEndpoint.save(flush: true)
+        serviceEndpointStatusService.refresh(serviceEndpoint)
 
         respond serviceEndpoint, model: [serviceEndpoint: serviceEndpoint]
     }

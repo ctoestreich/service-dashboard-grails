@@ -52,7 +52,7 @@
 
 
                     %{--<label>&nbsp;</label><BR>--}%
-                    <a data-toggle="tooltip" title="Refresh current view" ng-click="getEndpoints()"
+                    <a data-toggle="tooltip" title="Refresh current view" ng-click="refreshAll()"
                        class="btn btn-purple btn-sm"><i
                             class="icon-refresh"></i>&nbsp;Refresh All</a>
 
@@ -73,7 +73,7 @@
 <br/>
 
 <div class="widgets-container">
-<span ng-repeat="endpoint in endpoints | filter:search | orderBy:orderByField:reverse">
+<span ng-repeat="endpoint in filteredEndpoints = (endpoints | filter:search) | orderBy:orderByField:reverse">
     <service-endpoint endpoint="endpoint"
                       delete="deleteEndpoint"
                       edit="editEndpoint"
@@ -83,7 +83,6 @@
                       error="viewError"
     />
 </span>
-
 
 <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">

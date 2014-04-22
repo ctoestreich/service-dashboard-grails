@@ -1,7 +1,8 @@
 serviceDashboard.controller('ServiceEndpointCtrl',
     ['$scope', '$http', '$cookies', 'EndpointService', 'SettingsService', 'StatusService', 'DataService', 'GrowlService', 'DataFormatService',
         function ($scope, $http, $cookies, EndpointService, SettingsService, StatusService, DataService, GrowlService, DataFormatService) {
-            $scope.endpoints = {};
+            $scope.endpoints = [];
+            $scope.filteredEndpoints = [];
             $scope.endpointToDelete = {};
             $scope.endpointToEdit = {};
             $scope.endpointStatus = {lastResponse: ''};
@@ -55,6 +56,12 @@ serviceDashboard.controller('ServiceEndpointCtrl',
                     $scope.endpoints = endpoints;
                     $scope.groups = _.groupBy($scope.endpoints, "environmentType");
                 });
+            };
+
+            $scope.refreshAll = function(){
+                _.each($scope.filteredEndpoints, function(o){
+                    o.shouldRefresh = true;
+                })
             };
 
             $scope.viewEndpoint = function (endpoint) {

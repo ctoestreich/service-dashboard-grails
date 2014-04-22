@@ -22,6 +22,7 @@ serviceDashboard.directive('serviceEndpoint', ['$http', function ($http) {
             scope.$watch('endpoint.shouldRefresh', function () {
                 if (scope.endpoint && scope.endpoint.shouldRefresh) {
                     scope.endpoint.shouldRefresh = false;
+                    scope.resetTimer();
                     scope.refresh();
                 }
             });
@@ -48,9 +49,17 @@ serviceDashboard.directive('serviceEndpoint', ['$http', function ($http) {
                 clearInterval(scope.interval);
             };
 
-            scope.fetch();
+            scope.startTimer = function() {
+                scope.interval = setInterval(scope.fetch, scope.endpoint.pollIntervalMilliSeconds);
+            };
 
-            scope.interval = setInterval(scope.fetch, scope.endpoint.pollIntervalMilliSeconds);
+            scope.resetTimer = function(){
+                scope.clearTimer();
+                scope.startTimer();
+            };
+
+            scope.fetch();
+            scope.startTimer();
 
             function statusSuccess(data) {
                 scope.shouldRefresh = false;
